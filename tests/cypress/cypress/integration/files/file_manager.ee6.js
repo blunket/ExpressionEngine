@@ -160,7 +160,7 @@ context('File Manager', () => {
     it('Reverse sort by title/name', () => {
         beforeEach_all_files();
         // beforeEach_perpage_50();
-        
+
         cy.intercept('/admin.php?/cp/files*').as('fileRequest')
         page.get('title_name_header').find('a.column-sort').click()
         cy.wait('@fileRequest')
@@ -176,7 +176,7 @@ context('File Manager', () => {
             cy.wait('@fileRequest')
             cy.hasNoErrors()
             page.get('title_name_header').find('a.column-sort').should('have.class', 'column-sort--desc');
-            
+
             page.get('title_name_header').should('have.class', 'column-sort-header--active')
             page.get('title_names').then(function($td) {
                 let files_reversed = _.map($td, function(el) {
@@ -309,7 +309,7 @@ context('File Manager', () => {
         //page.get('manage_actions').eq(0).find('li.edit a').click()
         cy.get('tr[file_id="1"] .toolbar-wrap .js-dropdown-toggle').click()
         cy.get('a[title="Edit"]').filter(':visible').first().click()
-        
+
         cy.hasNoErrors()
 
 
@@ -800,7 +800,7 @@ context('File Manager', () => {
 
     context('Manage files in thumb view', () => {
         before(function() {
-            
+
         })
 
         it('sorting order stays the same', function() {
@@ -820,7 +820,7 @@ context('File Manager', () => {
 
                 cy.get('.file-grid__wrapper .file-grid__file .file-metadata__wrapper').then(function($td) {
                     let files_switched = _.map($td, function(el) {
-                        return $(el).find('span').first().text();
+                        return $(el).find('span').first().contents().get(0).nodeValue;
                     })
                     expect(files_switched).to.deep.equal(sorted_files)
                 })
@@ -874,13 +874,13 @@ context('File Manager', () => {
                             expect(files_by_title_reversed).to.deep.equal(files_by_title.reverse())
                         })
                     })
-                    
+
                 })
             })
 
         })
      })
 
-       
+
 
 })
